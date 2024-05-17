@@ -1,5 +1,11 @@
 import { createContext, useContext, useReducer } from "react";
 
+// created this to be able to import the QuizContext to other files. Added this as type to that
+interface QuizContext {
+  state: QuizState;
+  dispatch: React.Dispatch<QuizAction>;
+}
+
 type Status = "idle" | "fetching" | "ready";
 
 interface QuizState {
@@ -12,12 +18,19 @@ const initialState: QuizState = {
 
 type QuizAction = { type: "setStatus"; payload: Status };
 
-const QuizContext = createContext<QuizState>(initialState);
+const QuizContext = createContext<QuizContext>({
+  state: initialState,
+  dispatch: () => null,
+});
 
 export function QuizProvider({ children }: { children: React.ReactElement }) {
   const [state, dispatch] = useReducer(QuizReducer, initialState);
 
-  return <QuizContext.Provider value={state}>{children}</QuizContext.Provider>;
+  return (
+    <QuizContext.Provider value={{ state, dispatch }}>
+      {children}
+    </QuizContext.Provider>
+  );
 }
 
 export function useQuiz() {
@@ -44,10 +57,13 @@ import { createContext, useContext, useReducer } from "react";
 const initialState = {
     gameStatus: "idle",
 };
-const QuizContext = createContext(initialState);
+const QuizContext = createContext({
+    state: initialState,
+    dispatch: () => null,
+});
 export function QuizProvider({ children }) {
     const [state, dispatch] = useReducer(QuizReducer, initialState);
-    return React.createElement(QuizContext.Provider, { value: state }, children);
+    return (React.createElement(QuizContext.Provider, { value: { state, dispatch } }, children));
 }
 export function useQuiz() {
     return useContext(QuizContext);
