@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
-interface Question {
+export interface Question {
   category: string;
   type: "multiple" | "boolean";
   difficulty: "easy" | "medium" | "hard";
@@ -9,7 +9,7 @@ interface Question {
   incorrect_asnwers: string[];
 }
 
-interface QustionResponse {
+export interface QustionResponse {
   response_code: number;
   results: Question[];
 }
@@ -20,7 +20,7 @@ interface QuizContext {
   dispatch: React.Dispatch<QuizAction>;
 }
 
-type Status = "idle" | "fetching" | "ready";
+type Status = "idle" | "fetching" | "ready" | "error";
 
 interface QuizState {
   gameStatus: Status;
