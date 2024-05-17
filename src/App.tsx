@@ -21,8 +21,17 @@ function App() {
 
       if (data.response_code === 0) {
         let question: Question = data.results[0];
-        dispatch({ type: "setStatus", payload: "ready" });
 
+        let randomIndex = Math.round(
+          Math.random() * question.incorrect_answers.length
+        );
+        question.incorrect_answers.splice(
+          randomIndex,
+          0,
+          question.correct_answer
+        );
+
+        dispatch({ type: "setStatus", payload: "ready" });
         dispatch({ type: "setQuestion", payload: question });
       } else {
         dispatch({ type: "setStatus", payload: "error" });
