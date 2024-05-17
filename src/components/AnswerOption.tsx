@@ -1,12 +1,23 @@
 import "./AnswerOption.scss";
 import { decode } from "html-entities";
 
+import { useQuiz } from "../QuizContext.tsx";
+
 function AnswerOption({ answer }: { answer: string }) {
+  const { state, dispatch } = useQuiz();
+
   return (
     <>
       {answer && (
         <div className="answer-option">
-          <p>{decode(answer)}</p>
+          <p
+            className={answer == state.userAnswer ? "selected" : ""}
+            onClick={() => {
+              dispatch({ type: "setUserAnswer", payload: answer });
+            }}
+          >
+            {decode(answer)}
+          </p>
         </div>
       )}
     </>
@@ -14,3 +25,36 @@ function AnswerOption({ answer }: { answer: string }) {
 }
 
 export default AnswerOption;
+
+/* 
+! **
+! **
+*Actual js code
+
+import "./AnswerOption.scss";
+import { decode } from "html-entities";
+import { useQuiz } from "../QuizContext.tsx";
+
+function AnswerOption({ answer }) {
+    const { state, dispatch } = useQuiz();
+
+    return (
+    <>
+      {answer && (
+        <div className="answer-option">
+          <p
+            className={answer == state.userAnswer ? "selected" : ""}
+            onClick={() => {
+              dispatch({ type: "setUserAnswer", payload: answer });
+            }}
+          >
+            {decode(answer)}
+          </p>
+        </div>
+      )}
+    </>
+  );
+}
+export default AnswerOption;
+
+*/
