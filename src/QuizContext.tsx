@@ -1,5 +1,19 @@
 import { createContext, useContext, useReducer } from "react";
 
+interface Question {
+  category: string;
+  type: "multiple" | "boolean";
+  difficulty: "easy" | "medium" | "hard";
+  question: string;
+  correct_answer: string;
+  incorrect_asnwers: string[];
+}
+
+interface QustionResponse {
+  response_code: number;
+  results: Question[];
+}
+
 // created this to be able to import the QuizContext to other files. Added this as type to that
 interface QuizContext {
   state: QuizState;
