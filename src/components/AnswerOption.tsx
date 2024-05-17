@@ -1,21 +1,16 @@
-import './AnswerOption.scss';
+import "./AnswerOption.scss";
+import { decode } from "html-entities";
 
-
-function AnswerOption({answer}: {answer : string}) {
-
-    return (
-        <>  
-            {
-                answer &&
-                <div className="answer-option">
-                    <p> 
-                       {answer}
-                    </p>
-                </div>
-            }
-            
-        </>
-    )
+function AnswerOption({ answer }: { answer: string }) {
+  return (
+    <>
+      {answer && (
+        <div className="answer-option">
+          <p>{decode(answer)}</p>
+        </div>
+      )}
+    </>
+  );
 }
 
-export default AnswerOption
+export default AnswerOption;
