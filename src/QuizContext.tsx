@@ -6,7 +6,7 @@ export interface Question {
   difficulty: "easy" | "medium" | "hard";
   question: string;
   correct_answer: string;
-  incorrect_asnwers: string[];
+  incorrect_answers: string[];
 }
 
 export interface QustionResponse {
@@ -23,14 +23,18 @@ interface QuizContext {
 type Status = "idle" | "fetching" | "ready" | "error";
 
 interface QuizState {
+  question: Question | null;
   gameStatus: Status;
 }
 
 const initialState: QuizState = {
   gameStatus: "idle",
+  question: null,
 };
 
-type QuizAction = { type: "setStatus"; payload: Status };
+type QuizAction =
+  | { type: "setStatus"; payload: Status }
+  | { type: "setQuestion"; payload: Question };
 
 const QuizContext = createContext<QuizContext>({
   state: initialState,
@@ -53,6 +57,8 @@ export function useQuiz() {
 
 function QuizReducer(state: QuizState, action: QuizAction): QuizState {
   switch (action.type) {
+    case "setQuestion":
+      return { ...state, question: action.payload };
     case "setStatus":
       return { ...state, gameStatus: action.payload };
 
@@ -70,6 +76,7 @@ function QuizReducer(state: QuizState, action: QuizAction): QuizState {
 import { createContext, useContext, useReducer } from "react";
 const initialState = {
     gameStatus: "idle",
+    question: null,
 };
 const QuizContext = createContext({
     state: initialState,
@@ -84,6 +91,8 @@ export function useQuiz() {
 }
 function QuizReducer(state, action) {
     switch (action.type) {
+        case "setQuestion":
+            return Object.assign(Object.assign({}, state), { question: action.payload });
         case "setStatus":
             return Object.assign(Object.assign({}, state), { gameStatus: action.payload });
         default:
