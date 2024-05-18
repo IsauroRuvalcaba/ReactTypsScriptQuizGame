@@ -31,7 +31,18 @@ function Game() {
           </button>
         )}
 
-        {state.gameStatus == "answered" && <Result />}
+        {state.gameStatus == "answered" && (
+          <>
+            <Result />
+            <button
+              onClick={() => {
+                dispatch({ type: "setStatus", payload: "idle" });
+              }}
+            >
+              Next Question
+            </button>
+          </>
+        )}
       </div>
     </>
   );
