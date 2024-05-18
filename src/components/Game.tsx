@@ -5,7 +5,7 @@ import { useQuiz } from "../QuizContext.tsx";
 import { decode } from "html-entities";
 
 function Game() {
-  const { state } = useQuiz();
+  const { dispatch, state } = useQuiz();
   console.log(state);
 
   return (
@@ -19,9 +19,19 @@ function Game() {
           })}
         </div>
 
-        {state.userAnswer && <button>Submit</button>}
+        {/* This below is called Declaritive UI - go to react docs for more info */}
 
-        {/* <Result /> */}
+        {state.userAnswer && state.gameStatus != "answered" && (
+          <button
+            onClick={() => {
+              dispatch({ type: "setStatus", payload: "answered" });
+            }}
+          >
+            Submit
+          </button>
+        )}
+
+        {state.gameStatus == "answered" && <Result />}
       </div>
     </>
   );

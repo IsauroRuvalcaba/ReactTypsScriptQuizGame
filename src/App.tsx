@@ -54,13 +54,11 @@ function App() {
         <FullPageLoader />
       ) : state.gameStatus == "error" ? (
         <p>Error...</p>
-      ) : state.gameStatus == "ready" ? (
+      ) : (
         <>
           <Score />
           <Game />
         </>
-      ) : (
-        ""
       )}
     </>
   );

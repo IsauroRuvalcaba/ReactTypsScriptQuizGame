@@ -20,7 +20,7 @@ interface QuizContext {
   dispatch: React.Dispatch<QuizAction>;
 }
 
-type Status = "idle" | "fetching" | "ready" | "error";
+type Status = "idle" | "fetching" | "ready" | "error" | "answered";
 
 interface QuizState {
   question: Question | null;
