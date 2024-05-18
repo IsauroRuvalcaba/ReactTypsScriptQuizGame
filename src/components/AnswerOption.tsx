@@ -11,7 +11,15 @@ function AnswerOption({ answer }: { answer: string }) {
       {answer && (
         <div className="answer-option">
           <p
-            className={answer == state.userAnswer ? "selected" : ""}
+            className={`
+            ${answer == state.userAnswer ? "selected" : ""} 
+            ${
+              state.gameStatus == "answered" &&
+              answer == state.question?.correct_answer
+                ? "correct"
+                : ""
+            } 
+            `}
             onClick={() => {
               dispatch({ type: "setUserAnswer", payload: answer });
             }}
