@@ -14,6 +14,11 @@ export interface QustionResponse {
   results: Question[];
 }
 
+interface Score {
+  correct: number;
+  incorrect: number;
+}
+
 // created this to be able to import the QuizContext to other files. Added this as type to that
 interface QuizContext {
   state: QuizState;
@@ -26,18 +31,21 @@ interface QuizState {
   question: Question | null;
   gameStatus: Status;
   userAnswer: string | null;
+  score: Score;
 }
 
 const initialState: QuizState = {
   gameStatus: "idle",
   question: null,
   userAnswer: null,
+  score: { correct: 0, incorrect: 0 },
 };
 
 type QuizAction =
   | { type: "setStatus"; payload: Status }
   | { type: "setQuestion"; payload: Question }
-  | { type: "setUserAnswer"; payload: string };
+  | { type: "setUserAnswer"; payload: string | null }
+  | { type: "setScore"; payload: "correct" | "incorrect" };
 
 const QuizContext = createContext<QuizContext>({
   state: initialState,
@@ -66,6 +74,10 @@ function QuizReducer(state: QuizState, action: QuizAction): QuizState {
       return { ...state, gameStatus: action.payload };
     case "setUserAnswer":
       return { ...state, userAnswer: action.payload };
+    case "setScore":
+      let score = state.score;
+      score[action.payload] += 1;
+      return { ...state, score: score };
 
     default:
       throw new Error("Unknown action");
